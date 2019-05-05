@@ -10,5 +10,5 @@ This app randomly selects a card and then puts it against the dealers card. Aski
 would like to 'hit' or gain another card getting to or as close to 21 without going over.
 The dealer will always hit when it has less cards then the player.
 
-[Link](https://repl.it/@DrewRoberts/LightgreyUnluckyFan) 
+[Link to repl.it](https://repl.it/@DrewRoberts/LightgreyUnluckyFan) 
 
