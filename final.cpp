@@ -5,14 +5,14 @@
 using namespace std;
 
 //prototypes
-int GetCard();
-int DealerAI();
-void DisplayCards();
-void InputChoice();
-void InputChoice2();
-void Results();
+int dealcard();
+int dealer();
+void showcards();
+void acecard1();
+void acecard2();
+void results();
 void SorH();
-void Continue();
+void again();
 
 int card1, card2, dealerCV, bet;
 int playerCV = 0; //cv = card value
@@ -21,10 +21,10 @@ int cash = 500; // starting cash
 int main()
 {
 	srand(time(NULL)); //keeping cash
-	DisplayCards();
+	showcards();
 }
 
-int GetCard()
+int dealcard()
 {
 	int x;
 
@@ -38,30 +38,30 @@ int GetCard()
 }
 
 //seeing what your cards are + winning or losing game + blackjack
-void DisplayCards()
+void showcards()
 {
 	int flag1, flag2; // flags for aces
 
 	playerCV = 0;
 	flag1 = 0;
 	flag2 = 0;
-	card1 = GetCard();
-	card2 = GetCard();
+	card1 = dealcard();
+	card2 = dealcard();
 	
 	cout << "Cash: $" << cash << endl << endl;
 // lost all money
 	if (cash <= 0){
 		cout << "Your bankrupt, GAME OVER!" << endl;
 		cash = 500;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 	}
 	// winning the game
 	if (cash >= 10000){
 		cout << "You Win!" << endl;
 		cash = 500;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 	}
 
 	if (card1 == 11){
@@ -81,8 +81,8 @@ void DisplayCards()
 	if (bet > cash){
 		cout << endl;
 		cout << "You cannot bet more than you have" << endl;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 	}
 
 	cout << endl;
@@ -102,12 +102,12 @@ void DisplayCards()
 
 	if (flag1 == 1){
 		cout << "(Q)First card is 1 | (W)First card is 11" << endl;
-		InputChoice();
+		acecard1();
 	}
 
 	if (flag2 == 1){
 		cout << "(Z)Second card is 1 | (X)Second card is 11" << endl;
-		InputChoice2();
+		acecard2();
 	}
 // getting total cv value
 	playerCV = card1 + card2;
@@ -117,8 +117,8 @@ void DisplayCards()
 	if (playerCV == 21){
 		cout << endl << "BLACKJACK!!!" << endl;
 		cash = cash + bet * 5;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 	}
 	
 	cout << endl;
@@ -127,7 +127,7 @@ void DisplayCards()
 
 }
 // deciding first card ace is 11 or 1
-void InputChoice()
+void acecard1()
 {
 
 	char choice;
@@ -146,7 +146,7 @@ void InputChoice()
 		
 }
 // deciding second card ace is 11 or 1
-void InputChoice2()
+void acecard2()
 {
 
 	char choice;
@@ -177,42 +177,42 @@ void SorH()
   //getting another card or getting your total card value
 	switch (choice) {
 	case 'h':
-			playerCV = playerCV + GetCard();
+			playerCV = playerCV + dealcard();
 			if (playerCV > 21){
 			cout << "Your total card value is " << playerCV << endl;
 			cout << "You bust" << endl;
 			cash = cash - bet;
-			Continue();
-			DisplayCards();	
+			again();
+			showcards();	
 			}
 			cout << "Your total card value is " << playerCV << endl << endl;
 			SorH();
 			break;
 	case 's':
-			Results();
+			results();
 			break;
 	}
 	
 }
 
-void Results() //seeing who wins
+void results() //seeing who wins
 {
-	dealerCV = DealerAI();
+	dealerCV = dealer();
   // card total
 	cout << "Your total card value is " << playerCV << endl;
 	if (playerCV > 21){
 		cout << "You bust" << endl;
 		cash = cash - bet;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 		}
 	else
 		cout << "Dealer's total card value is " << dealerCV << endl << endl;
 	if (dealerCV > 21){
 		cout << "Dealer busts" << endl;
 		cash = cash + bet;
-		Continue();
-		DisplayCards();
+		again();
+		showcards();
 		}
 	else {
 		if (playerCV > dealerCV){
@@ -225,17 +225,17 @@ void Results() //seeing who wins
 		cout << "You lose" << endl;
 		cash = cash - bet;	
 		}
-	Continue();
-	DisplayCards();
+	again();
+	showcards();
 	}
 }
 //dealer cards
-int DealerAI()
+int dealer()
 {
 	int c1, c2, cv, f1, f2;
 //getting their cards
-	c1 = GetCard();
-	c2 = GetCard();
+	c1 = dealcard();
+	c2 = dealcard();
 	//ace choice
 	if (c1 == 11)
 		f1 = 1;
@@ -246,23 +246,23 @@ int DealerAI()
 	cv = c1 + c2;
 	//decided 16 lowest to continue to hit
 	while (cv <= 16)
-		cv = cv + GetCard();
+		cv = cv + dealcard();
 	
 	if (cv > 21 & f1 == 1){
 		while (cv <= 16)
-		cv = 1 + c2 + GetCard();
+		cv = 1 + c2 + dealcard();
 	}
 
 	if (cv > 21 & f2 == 1){
 		while (cv <= 16)
-		cv = c1 + 1 + GetCard();
+		cv = c1 + 1 + dealcard();
 	}
 
 	return cv; 
 
 }
 //playing again
-void Continue()
+void again()
 {
 	char key;
 	cout << endl;
